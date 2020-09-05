@@ -7,7 +7,9 @@
     text-color="#fff"
     active-text-color="#ffd04b">
 
-    <el-menu-item :index="item.path" v-for="item in noChildren" :key="item.path">
+    <el-menu-item :index="item.path" v-for="item in noChildren"
+     :key="item.path"
+     @click="clickMenu(item)">
       <i :class="'el-icon-' + item.icon"></i>
       <span slot="title">{{ item.label }}</span>
     </el-menu-item>
@@ -18,7 +20,10 @@
           <span>{{item.label}}</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item :index="subItem.path" v-for="(subItem, subIndex) in item.children" :key="subIndex">
+          <el-menu-item :index="subItem.path" 
+            v-for="(subItem, subIndex) in item.children"
+            :key="subIndex" 
+            @click="clickMenu(subItem)">
               {{subItem.label}}
           </el-menu-item>
         </el-menu-item-group>
@@ -29,8 +34,10 @@
 </template>
 
 <script>
+
 export default {
     computed: {
+
         noChildren() {
             return this.asideMenu.filter(item => !item.children);
         },
@@ -44,18 +51,21 @@ export default {
                 {
                     path: '/',
                     label: '首页',
+                    name: 'home',
                     icon: 's-home',
                 },
 
                 {
                     path: '/video',
                     label: '视频管理',
+                    name: 'video',
                     icon: 'video-play'
                 },
 
                 {
                     path: '/user',
                     label: '用户管理',
+                    name: 'user',
                     icon: 'user'
                 },
                 
@@ -66,24 +76,33 @@ export default {
                         {
                             path: 'page1',
                             label: '页面1',
+                            name: 'page1',
                             icon: 'setting'
                         },
                         {
-                            path: 'page1',
+                            path: 'page2',
                             label: '页面2',
+                            name: 'page2',
                             icon: 'setting'
                         }
                     ]
                 }
             ]
         }
-    }
+    },
+
+    methods: {
+        clickMenu(item) {
+            this.$store.commit('selectMenu', item);
+        }
+    },
 }
 </script>
 
 <style lang="scss" scoped>
 .el-menu {
     height: 100%;
+    border: none;
 }
 
 </style>
