@@ -1,6 +1,6 @@
 <template>
     <el-container style="height: 100%">
-        <el-aside width="200px">
+        <el-aside style="width: auto">
             
             <common-aside></common-aside>
 

@@ -1,8 +1,9 @@
 
 export default {
     state: {
-        menu: [],
+        isCollapse: false,
         currentMenu: null,
+        menu: [],
         tabList: [    {
             path: '/',
             label: '首页',
@@ -23,6 +24,9 @@ export default {
         closeTab(state, val) {
             var res = state.tabList.findIndex((item) => item.name === val.name);
             state.tabList.splice(res, 1);
+        },
+        collapse(state) {
+            state.isCollapse = !state.isCollapse;
         }
     }
 }
