@@ -11,9 +11,11 @@
            
         </div>
 
-        <div class="manage-content">
-            <common-table></common-table>
-        </div>
+            <common-table 
+            :tableData="tableData" 
+            :tableLabel="tableLabel"
+            :config="config">
+            </common-table>
     </div>
 
 </template>
@@ -27,6 +29,34 @@ export default {
     },
     data: function() {
         return {
+            tableData: [],
+            tableLabel: [
+                {
+                    prop: 'name',
+                    label: '姓名',
+                },
+                {
+                    prop: 'age',
+                    label: '年龄',
+                },
+                {
+                    prop: 'sexLabel',
+                    label: '性别',
+                },
+                {
+                    prop: 'birth',
+                    label: '出生日期',
+                },   
+                {
+                    prop: 'addr',
+                    label: '地址',
+                },                             
+            ],
+            config: {
+                page: 1,
+                total: 30,
+                loading: false
+            },
             searchForm: {
                 keyword: ''
             },
@@ -35,8 +65,31 @@ export default {
                     model: 'keyword',
                     label: ''
                 }
-            ]
+            ],
+
+
         }
+    },
+    methods: {
+        getlist() {
+            this.config.loading = true;
+            this.$http.get('/api/user/getUser', {
+                params: {
+                    page: this.config.page
+                }
+            }).then(res => {
+                console.log(res.data)
+                this.tableData = res.data.list.map(item=> {
+                    item.sexLabel = item.sex == 0 ? '女' : '男'
+                    return item;
+                })
+                this.config.total = res.data.count;
+                this.config.loading = false;
+            })
+        }
+    },
+    mounted() {
+        this.getlist();
     }
 }
 </script>
