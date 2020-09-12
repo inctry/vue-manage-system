@@ -1,6 +1,14 @@
 <template>
   
     <div class="manage">
+        <el-dialog :title="operateType === 'add'? '新增' : '更新'"
+        :visible.sync="dialogVisible">
+            <common-form :formLabel="operateFormLabel" :form="operateForm"></common-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="comfirm">确 定</el-button>
+            </div>
+        </el-dialog>
         <div class="manage-header">
             <el-button type="primary">+新增</el-button>
             <common-form inline 
@@ -14,7 +22,10 @@
             <common-table 
             :tableData="tableData" 
             :tableLabel="tableLabel"
-            :config="config">
+            :config="config"
+            @changePage="getlist"
+            @edit="editUser"
+            @delete="deleteUser">
             </common-table>
     </div>
 
@@ -29,6 +40,51 @@ export default {
     },
     data: function() {
         return {
+            dialogVisible: false,
+            operateType: 'add',
+            operateForm: {
+                id: '',
+                name: '',
+                addr: '',
+                age: '',
+                birth: '',
+                sex: ''
+            },
+            operateFormLabel: [
+                {
+                    model: 'name',
+                    label: '姓名'
+                },
+                {
+                    model: 'age',
+                    label: '年龄'
+                },
+                {
+                    model: 'sex',
+                    label: '性别',
+                    opts: 
+                    [
+                        {
+                            label: '男',
+                            value: 1
+                        },
+                        {
+                            label: '女',
+                            value: 0
+                        }
+                    ],
+                    type: 'select'
+                },
+                {
+                    model: 'birth',
+                    label: '出生日期',
+                    type: 'date'
+                },
+                {
+                    model: 'addr',
+                    label: '地址'
+                },
+            ],
             tableData: [],
             tableLabel: [
                 {
@@ -46,10 +102,12 @@ export default {
                 {
                     prop: 'birth',
                     label: '出生日期',
+                    width: 200
                 },   
                 {
                     prop: 'addr',
                     label: '地址',
+                    width: 320
                 },                             
             ],
             config: {
@@ -78,7 +136,7 @@ export default {
                     page: this.config.page
                 }
             }).then(res => {
-                console.log(res.data)
+                //console.log(res.data)
                 this.tableData = res.data.list.map(item=> {
                     item.sexLabel = item.sex == 0 ? '女' : '男'
                     return item;
@@ -86,6 +144,58 @@ export default {
                 this.config.total = res.data.count;
                 this.config.loading = false;
             })
+        },
+        editUser(row) {
+            
+            for(let key in this.operateForm) {
+                this.operateForm[key] = row[key]
+            }
+            this.operateType = 'edit';
+            this.dialogVisible = true;
+        },
+        addUser(row) {
+            this.operateType = 'add';
+            this.dialogVisible = true;
+        },
+        changePage(val) {
+            
+        },
+        comfirm() {
+            if(this.operateType === 'edit') {
+               // console.log(this.operateForm)
+                this.$http.post('/api/user/edit', this.operateForm).then(res =>{
+                    //console.log()
+                    this.dialogVisible = false;
+                    this.getlist();
+                    console.log(this.tableData)
+                })
+            }
+        },
+        deleteUser(row) {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let id = row.id;
+                    this.$http.get('/api/user/del', {
+                        params: {
+                            id: id
+                        }
+                    }).then(res => {
+                        console.log(res.data)
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });          
+                });
+            
         }
     },
     mounted() {

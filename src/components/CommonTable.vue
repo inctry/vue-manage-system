@@ -1,11 +1,12 @@
 <template>
     <div class="common-table">
-         <el-table strip show-overflow-tooltip
+         <el-table strip 
             height="90%"
             :data="tableData"
-            style="width: 100%">
+            style="width: 100%"
+            v-loading="config.loading">
 
-            <el-table-column
+            <el-table-column show-overflow-tooltip
             label="序号"
             width="85">
                 <template 
@@ -22,6 +23,7 @@
                 :key="item.prop"
                 :prop="item.prop"
                 :label="item.label"
+                :width="item.width ? item.width : 125+'px'"
                 >
 
                 <template 
@@ -33,7 +35,7 @@
                 </template>
             </el-table-column>
 
-             <el-table-column label="操作">
+             <el-table-column label="操作" width="180">
                 <template slot-scope="scope">
                     <el-button
                     size="mini"
@@ -48,7 +50,8 @@
             <el-pagination class="pager"
                 layout="prev, pager, next"
                 :total="config.total"
-                :current-page.sync="config.page">
+                :current-page.sync="config.page"
+                @current-change="changePage">
             </el-pagination>
     </div>
 </template>
@@ -62,10 +65,13 @@ export default {
     },
     methods: {
         handleEdit(row) {
-
+            this.$emit('edit', row);
         },
         handleDelete(row) {
-
+            this.$emit('delete', row);
+        },
+        changePage(page) {
+            this.$emit('changePage', page)
         }
     }
 }
