@@ -1,9 +1,10 @@
 import Mock from 'mockjs'
 import homeApi from './home.js'
 import userApi from './user.js'
+import permissionApi from './permission'
 
 Mock.setup({
-    timeout: '200-2000'
+    timeout: '100-1000'
 })
 //首页相关
 Mock.mock(/\/home\/getData/,'get',homeApi.getStatisticalData)
@@ -18,3 +19,4 @@ Mock.mock(/\/user\/edit/, 'post', userApi.updateUser)
 Mock.mock(/\/home\/getData/, 'get', homeApi.getStatisticalData)
 
 // 权限相关
+Mock.mock(/\/permission\/getMenu/, 'post', permissionApi.getMenu)

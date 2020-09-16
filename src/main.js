@@ -12,9 +12,21 @@ Vue.use(ElementUI);
 Vue.prototype.$http = http
 Vue.config.productionTip = false;
 
+router.beforeEach((to, from, next) => {
+    store.commit('getToken');
+    let token = store.state.user.token;
+    if(!token && to.name !== 'login') {
+        next({ name: 'login' });
+    } else {
+        next();
+    }
+})
 
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  created() {
+    this.$store.commit('addMenu', router);
+  }
 }).$mount("#app");

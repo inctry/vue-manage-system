@@ -11,43 +11,15 @@ VueRouter.prototype.push = function push(location) {
 } 
 
 const routes = [
+
     {
-        path: '/',
-        component: () => import('@/views/Main.vue'),
-        children: [
-            {
-                path: '',
-                name: 'home',
-                component: () => import('../views/Home/Home.vue')
-            },
-
-            {
-                path: 'video',
-                name: 'video',
-                component: () => import('../views/VideoManage/VideoManage.vue')
-            },
-
-            {
-                path: 'user',
-                name: 'user',
-                component: () => import('../views/UserManage/UserManage.vue')
-            },
-
-            {
-                path: 'page1',
-                name: 'page1',
-                component: () => import('../views/other/Pageone.vue')
-            },
-
-            {
-                path: 'page2',
-                name: 'page2',
-                component: () => import('../views/other/Pagetwo.vue')
-            }
-
-        ]
+        path: '/login',
+        name: 'login',
+        component: () => import('../views/Login/Login.vue')
     }
 ];
+
+
 
 const router = new VueRouter({
   routes
