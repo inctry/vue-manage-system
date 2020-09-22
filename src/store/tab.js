@@ -20,6 +20,14 @@ export default {
             state.menu = []
             Cookie.remove('menu')
         },
+        clearTabList(state) {
+            state.tabList = [{
+                path: '/',
+                label: '首页',
+                name: 'home',
+                icon: 's-home',
+            }];
+        },
         addMenu(state, router) {
             if(!Cookie.get('menu')) return;
             let menu = JSON.parse(Cookie.get('menu'));
@@ -35,7 +43,6 @@ export default {
                 if(item.children) {
                     item.children = item.children.map(item => {
                         item.component = () => import(`@/views/${item.url}`)
-                        console.log(`@/views/${item.url}`)
                         return item
                     })
                     currentMenu[0].children.push(...item.children)
@@ -45,7 +52,6 @@ export default {
 
                 }
             })
-            console.log(currentMenu);
             router.addRoutes(currentMenu);
         },
         selectMenu(state, val) {

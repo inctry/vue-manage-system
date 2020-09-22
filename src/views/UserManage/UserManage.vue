@@ -10,11 +10,11 @@
             </div>
         </el-dialog>
         <div class="manage-header">
-            <el-button type="primary">+新增</el-button>
+            <el-button type="primary" @click="addUser">+新增</el-button>
             <common-form inline 
             :formLabel="formLabel"
             :form="searchForm">
-             <el-button type="primary">搜索</el-button>
+             <el-button type="primary" v-model="searchForm.keyword">搜索</el-button>
             </common-form>
            
         </div>
@@ -42,6 +42,7 @@ export default {
         return {
             dialogVisible: false,
             operateType: 'add',
+            keyword: '',
             operateForm: {
                 id: '',
                 name: '',
@@ -136,7 +137,7 @@ export default {
                     page: this.config.page
                 }
             }).then(res => {
-                //console.log(res.data)
+                console.log(res);
                 this.tableData = res.data.list.map(item=> {
                     item.sexLabel = item.sex == 0 ? '女' : '男'
                     return item;
@@ -167,7 +168,20 @@ export default {
                     //console.log()
                     this.dialogVisible = false;
                     this.getlist();
-                    console.log(this.tableData)
+                })
+            } else {
+                this.$http.post('/api/user/add', this.operateForm).then(res => {
+                    this.dialogVisible = false;
+                    this.$message({
+                        type: 'success',
+                        message: '新增成功'
+                    })
+                    this.getlist();
+                }).catch(res => {
+                    this.$message({
+                        type: 'info',
+                        message: '新增失败'
+                    });    
                 })
             }
         },
@@ -189,6 +203,7 @@ export default {
                             message: '删除成功!'
                         });
                     })
+                    this.getlist();
                 }).catch(() => {
                     this.$message({
                         type: 'info',

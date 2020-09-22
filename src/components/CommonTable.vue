@@ -1,4 +1,5 @@
 <template>
+
     <div class="common-table">
          <el-table strip 
             height="90%"
@@ -8,11 +9,12 @@
 
             <el-table-column show-overflow-tooltip
             label="序号"
-            width="85">
+            width="85"
+            :align="'center'">
                 <template 
                     slot-scope="scope">
                     <span 
-                        style="margin-left: 10px">
+                        style="">
                         {{ (config.page - 1) * 20 + scope.$index + 1  }}
                     </span>
                 </template>
@@ -23,19 +25,20 @@
                 :key="item.prop"
                 :prop="item.prop"
                 :label="item.label"
-                :width="item.width ? item.width : 125+'px'"
+                :align="'center'"
                 >
 
                 <template 
                     slot-scope="scope">
                     <span 
-                        style="margin-left: 10px">
+                        style="">
                         {{ scope.row[item.prop] }}
                     </span>
                 </template>
+                <el-scrollbar></el-scrollbar>
             </el-table-column>
 
-             <el-table-column label="操作" width="180">
+             <el-table-column label="操作" width="180" :align="'center'">
                 <template slot-scope="scope">
                     <el-button
                     size="mini"
@@ -47,12 +50,14 @@
                 </template>
             </el-table-column>
          </el-table>
+         <div class="pager-fa">
             <el-pagination class="pager"
                 layout="prev, pager, next"
                 :total="config.total"
                 :current-page.sync="config.page"
                 @current-change="changePage">
             </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -88,4 +93,5 @@ export default {
         right: 20px;
     }
 }
+
 </style>

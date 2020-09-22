@@ -106,6 +106,7 @@ export default {
             this.$store.commit('selectMenu', item);
         }
     },
+
 }
 </script>
 
