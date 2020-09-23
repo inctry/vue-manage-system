@@ -55,6 +55,7 @@
                 layout="prev, pager, next"
                 :total="config.total"
                 :current-page.sync="config.page"
+                :page-size="config.pagesize"
                 @current-change="changePage">
             </el-pagination>
         </div>

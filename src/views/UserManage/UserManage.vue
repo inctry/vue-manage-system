@@ -14,7 +14,9 @@
             <common-form inline 
             :formLabel="formLabel"
             :form="searchForm">
-             <el-button type="primary" v-model="searchForm.keyword">搜索</el-button>
+             <el-button type="primary" v-model="searchForm.keyword" 
+             @click="searchUser">搜索
+             </el-button>
             </common-form>
            
         </div>
@@ -114,11 +116,13 @@ export default {
             config: {
                 page: 1,
                 total: 30,
+                pagesize: 10,
                 loading: false
             },
             searchForm: {
                 keyword: ''
             },
+
             formLabel: [
                 {
                     model: 'keyword',
@@ -134,17 +138,21 @@ export default {
             this.config.loading = true;
             this.$http.get('/api/user/getUser', {
                 params: {
-                    page: this.config.page
+                    page: this.config.page,
+                    keyword: this.searchForm.keyword
                 }
             }).then(res => {
-                console.log(res);
                 this.tableData = res.data.list.map(item=> {
                     item.sexLabel = item.sex == 0 ? '女' : '男'
                     return item;
                 })
                 this.config.total = res.data.count;
                 this.config.loading = false;
+                this.config.pagesize = 20
             })
+        },
+        searchUser() {
+            this.getlist();
         },
         editUser(row) {
             
@@ -197,7 +205,6 @@ export default {
                             id: id
                         }
                     }).then(res => {
-                        console.log(res.data)
                         this.$message({
                             type: 'success',
                             message: '删除成功!'

@@ -4,7 +4,7 @@ import userApi from './user.js'
 import permissionApi from './permission'
 
 Mock.setup({
-    timeout: '100-200'
+    timeout: '200-500'
 })
 //首页相关
 Mock.mock(/\/home\/getData/,'get',homeApi.getStatisticalData)

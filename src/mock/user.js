@@ -2,7 +2,8 @@ import Mock from 'mockjs'
 
 // get请求从config.url获取参数，post从config.body中获取参数
 function param2Obj(url) {
-  const search = url.split('?')[1]
+  let search = url.split('?')[1]
+
   if (!search) {
     return {}
   }
@@ -40,12 +41,18 @@ export default {
    * @return {{code: number, count: number, data: *[]}}
    */
   getUserList: config => {
-    const { name, page = 1, limit = 20 } = param2Obj(config.url)
+    const { keyword: name, page = 1, limit = 20 } = param2Obj(config.url)
     //console.log('name:' + name, 'page:' + page, '分页大小limit:' + limit)
+    // let keyword = config.params.keyword;
     const mockList = List.filter(user => {
-      if (name && user.name.indexOf(name) === -1 && user.addr.indexOf(name) === -1) return false
-      return true
+      if(name && user.name.indexOf(name) === -1 && user.addr.indexOf(name) === -1) return false
+    //   if(user.name.indexOf(keyword) !== -1 || 
+    //     user.addr.indexOf(keyword) !== -1)
+        return true
+        
+    //   return false;
     })
+
     const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
     return {
       code: 20000,
