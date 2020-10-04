@@ -1,7 +1,8 @@
 <template>
     <div class="heap">
         <div class="login">
-            <el-form :label-position="'right '" label-width="80px" >
+            <p> Login </p>
+            <el-form :label-position="'right'" label-width="60px">
                 <el-form-item label="账号">
                     <el-input v-model="user.username" style="width:300px" size="medium"></el-input>
                 </el-form-item>
@@ -46,16 +47,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.login {
+    background-color: white;
+    text-align: center;
+    border-radius: 15.5px;
+    // width: 600px;
+    // width: 600px;
+     height: 280px;
+    p {
+        margin: 30px;
+        font-size: 1.5em;
+        font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    /deep/.el-form-item__label {
+        margin-right: -100px;
+    }
+    
+    .el-input {
+         padding-right: 40px;
+    }
+}
 .heap {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
-    background: #FFB6C1;
+    background-image: linear-gradient(to right, #fbc2eb, #a6c1ee);
     .el-button {
-        float: right;
+        margin: 10px auto;
+
     }
 }
 // .heap {

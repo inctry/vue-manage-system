@@ -40,6 +40,7 @@
         .el-card {
             width: 32%;
             margin-bottom: 20px;
+            border-radius: 8px;
         }
         /deep/.el-card__body {
             display: flex;
@@ -48,9 +49,11 @@
         .icon {
             font-size: 30px;
             width: 80px;
-            height: 80px;
+            height: 133px;
             text-align: center;
-            line-height: 80px;
+            // display: inline-block;
+            // vertical-align: middle;
+            line-height: 133px;
         }
         .detail {
             margin-left: 15px;
