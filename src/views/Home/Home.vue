@@ -7,8 +7,7 @@
                     <img :src="userImg" alt="">
                     <div class="userinfo">
 
-                        <p class="name">Nick</p>
-                        <p class="access">超级管理员</p>
+                        <p class="name">Ryan</p>
                     </div>
                 </div>
                 <div class="login-info">
@@ -53,7 +52,6 @@
 </template>
 
 <script>
-// import EChart from '../../components/EChart'
 export default {
 
     data() {

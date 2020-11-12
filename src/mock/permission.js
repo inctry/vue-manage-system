@@ -3,9 +3,9 @@ export default {
   getMenu: config => {
     const { username, password } = JSON.parse(config.body)
     console.log(JSON.parse(config.body))
-    // 先判断用户是否存在
+
     if (username === 'admin' || username === 'wp') {
-      // 判断账号和密码是否对应
+
       if (username === 'admin' && password === '123456') {
         return {
           code: 20000,
@@ -25,6 +25,13 @@ export default {
                 icon: 'user',
                 url: 'UserManage/UserManage'
               },
+            //   {
+            //     path: '/video',
+            //     name: 'video',
+            //     label: '视频管理页',
+            //     icon: 'video-play',
+            //     url: 'VideoManage/VideoManage'
+            //   }
             ],
             token: Mock.Random.guid(),
             message: '获取成功'

@@ -30,9 +30,9 @@ export default {
     },
     data() {
       return {
-        dynamicTags: ['标签一', '标签二', '标签三'],
-        inputVisible: false,
-        inputValue: ''
+        // dynamicTags: ['标签一', '标签二', '标签三'],
+        // inputVisible: false,
+        // inputValue: ''
       };
     },
     methods: {

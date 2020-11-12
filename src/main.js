@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import http from '@/api/config.js'
 import './mock'
 Vue.use(ElementUI);
+
 Vue.prototype.$http = http
 Vue.config.productionTip = false;
 
