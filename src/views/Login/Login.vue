@@ -29,7 +29,7 @@ export default {
     },
     methods: {
         login() {
-            this.$http.post('/permission/getMenu', this.user).then( res=>{
+            this.$http.post('/permission/getMenu', this.user).then( res =>{
                 res = res.data;
                 if(res.code === 20000) {
                     this.$store.commit('clearMenu');

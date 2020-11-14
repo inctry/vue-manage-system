@@ -1,4 +1,5 @@
 import Mock from 'mockjs'
+import moment from 'moment'
 
 
 function param2Obj(url) {
@@ -16,8 +17,12 @@ function param2Obj(url) {
       '"}'
   )
 }
-
 let List = []
+function datechange(date) {
+    return moment(date).format("yyyy-MM-DD")
+    // return ff.format("yyyy-mm-dd");
+}
+
 const count = 200
 
 for (let i = 0; i < count; i++) {
@@ -41,11 +46,11 @@ export default {
    * @return {{code: number, count: number, data: *[]}}
    */
   getUserList: config => {
-    const { keyword: name, page = 1, limit = 20 } = param2Obj(config.url)
+    const { keyword, page = 1, limit = 20 } = param2Obj(config.url)
     //console.log('name:' + name, 'page:' + page, '分页大小limit:' + limit)
     // let keyword = config.params.keyword;
     const mockList = List.filter(user => {
-      if(name && user.name.indexOf(name) === -1 && user.addr.indexOf(name) === -1) return false
+      if(keyword && user.name.indexOf(keyword) === -1 && user.addr.indexOf(keyword) === -1) return false
     //   if(user.name.indexOf(keyword) !== -1 || 
     //     user.addr.indexOf(keyword) !== -1)
         return true
@@ -66,8 +71,9 @@ export default {
    * @return {{code: number, data: {message: string}}}
    */
   createUser: config => {
-    const { name, addr, age, birth, sex } = JSON.parse(config.body)
+    let { name, addr, age, birth, sex } = JSON.parse(config.body)
     console.log(JSON.parse(config.body))
+    birth = datechange(birth);
     List.unshift({
       id: Mock.Random.guid(),
       name: name,
@@ -104,28 +110,13 @@ export default {
     }
   },
   /**
-   * 批量删除
-   * @param config
-   * @return {{code: number, data: {message: string}}}
-   */
-  batchremove: config => {
-    let { ids } = param2Obj(config.url)
-    ids = ids.split(',')
-    List = List.filter(u => !ids.includes(u.id))
-    return {
-      code: 20000,
-      data: {
-        message: '批量删除成功'
-      }
-    }
-  },
-  /**
    * 修改用户
    * @param id, name, addr, age, birth, sex
    * @return {{code: number, data: {message: string}}}
    */
   updateUser: config => {
-    const { id, name, addr, age, birth, sex } = JSON.parse(config.body)
+    let { id, name, addr, age, birth, sex } = JSON.parse(config.body)
+    birth = datechange(birth)
     const sex_num = parseInt(sex)
     List.some(u => {
       if (u.id === id) {

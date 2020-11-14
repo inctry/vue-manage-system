@@ -25,13 +25,13 @@ export default {
                 icon: 'user',
                 url: 'UserManage/UserManage'
               },
-            //   {
-            //     path: '/video',
-            //     name: 'video',
-            //     label: '视频管理页',
-            //     icon: 'video-play',
-            //     url: 'VideoManage/VideoManage'
-            //   }
+              {
+                path: '/video',
+                name: 'video',
+                label: '视频管理页',
+                icon: 'video-play',
+                url: 'VideoManage/VideoManage'
+              }
             ],
             token: Mock.Random.guid(),
             message: '获取成功'
